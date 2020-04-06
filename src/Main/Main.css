@@ -1,0 +1,8 @@
+.main__container {
+    border: 1px solid black;
+}
+
+.note {
+    border: 1px red solid;
+    margin: 10px;
+}
