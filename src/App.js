@@ -15,13 +15,21 @@ export default class App extends Component {
           <h1>Noteful</h1>
         </header>
 
-        <Sidebar>
-          <Route path= '/' component={Sidebar} />
-        </Sidebar>
+        <div className='content'>
+          <Sidebar 
+            folders= { this.props.store.folders }>
+            <Route exact path= '/' component={Sidebar} />
+            <Route path= '/folder/:folderId' component={folderSidebar} />
+            <Route path= '/note/:noteId' component={noteSidebar} />
+          </Sidebar>
 
-        <Main>
-          <Route path = '/' component={Main} />
-        </Main>
+          <Main
+            notes= {this.props.store.notes} >
+            <Route exact path = '/' component={Main} />
+            {/* <Route path= '/folder/:folderId' component={folderMain} />
+            <Route path= '/note/:noteId' component={noteMain} /> */}
+          </Main>
+        </div>
 
       </div>
     )

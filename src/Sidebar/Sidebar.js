@@ -1,14 +1,17 @@
 import React from 'react'
+import Folders from './Folders'
 
-export default function Sidebar() {
+export default function Sidebar(props) {
     return (
         <div className='sidebar__container'>
             <div className="mainButtons">
-                <button className='button'>Folder 1</button>
-                <button className='button'>Folder 2</button>
-                <button className='button'>Folder 3</button>
+                <ul>
+                    { props.folders.map((folderName) => {
+                        return <Folders folderName= { folderName } key={folderName.id}/>
+                    })}
+                </ul>
             </div>
-            <div className='addButton'>
+            <div className='addFolderButton'>
                 <button className='button'>Add Folder</button>
             </div>
         </div>
