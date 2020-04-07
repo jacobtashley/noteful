@@ -26,8 +26,8 @@ export default class App extends Component {
           <Main
             notes= {this.props.store.notes} >
             <Route exact path = '/' component={Main} />
-            {/* <Route path= '/folder/:folderId' component={folderMain} />
-            <Route path= '/note/:noteId' component={noteMain} /> */}
+            <Route path= '/folder/:folderId' component={folderMain} />
+            <Route path= '/note/:noteId' component={noteMain} />
           </Main>
         </div>
 
