@@ -1,7 +1,8 @@
 import React from 'react'
 import Folders from './Folders'
+import './Sidebar.css'
 
-export default function Sidebar(props) {
+export default function MainSidebar(props) {
     return (
         <div className='sidebar__container'>
             <div className="mainButtons">

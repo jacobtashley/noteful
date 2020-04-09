@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 export default function Note(props) {
@@ -8,7 +9,9 @@ export default function Note(props) {
 
     return (
         <div className='note' key={props.note.id}>
-            <h3>{props.note.name}</h3>
+            <Link to={`/note/${props.note.id}`}>
+                <h3>{props.note.name}</h3>
+            </Link>
             <p>Date modified on {d}</p>
             <button className='deleteButton'>Delete Note</button>
         </div>

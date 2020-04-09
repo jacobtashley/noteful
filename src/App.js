@@ -1,12 +1,24 @@
 import React, { Component } from 'react'
 import './App.css';
-import './Sidebar/Sidebar.css'
-import './Main/Main.css'
 import { Route } from 'react-router-dom'
-import Sidebar from './Sidebar/Sidebar'
+import MainSidebar from './Sidebar/MainSidebar'
+import FolderSidebar from './Sidebar/FolderSidebar'
+import NoteSidebar from './Sidebar/NoteSidebar'
 import Main from './Main/Main'
+import FolderMain from './Main/FolderMain'
+import NoteMain from './Main/NoteMain'
+import STORE from './STORE'
 
 export default class App extends Component {
+  state= {
+    notes: [],
+    folders: []
+  }
+
+  componentDidMount() {
+    this.setState(STORE)
+  }
+
   render() {
     return (
       <div className='App'>
@@ -16,23 +28,71 @@ export default class App extends Component {
         </header>
 
         <div className='content'>
-          <Sidebar 
-            folders= { this.props.store.folders }>
-            <Route exact path= '/' component={Sidebar} />
-            <Route path= '/folder/:folderId' component={folderSidebar} />
-            <Route path= '/note/:noteId' component={noteSidebar} />
-          </Sidebar>
 
-          <Main
-            notes= {this.props.store.notes} >
-            <Route exact path = '/' component={Main} />
-            <Route path= '/folder/:folderId' component={folderMain} />
-            <Route path= '/note/:noteId' component={noteMain} />
-          </Main>
+          <div className='Sidebar'>
+
+            <Route 
+              exact path= '/' 
+              render={ () => 
+                <MainSidebar
+                  folders= { this.state.folders } 
+                />
+              }
+            />
+
+            <Route 
+              path= '/folder/:folderId' 
+              render={ () => 
+                <FolderSidebar
+                  folders= { this.state.folders } 
+                />
+              }
+            />
+
+            <Route 
+              path= '/note/:noteId' 
+              render={ () => 
+                <NoteSidebar
+                  folders= { this.state.folders } 
+                />
+              }
+            />
+
+          </div>
+
+          <div className="mainMain">
+
+            <Route 
+              exact path = '/' 
+              render ={() => 
+                <Main
+                  notes= {this.state.notes}
+                />
+              } 
+            />
+
+            <Route 
+              path= '/folder/:folderId' 
+              render={ () => 
+                <FolderMain
+                  folders= { this.state.folders } 
+                />
+              }
+            />
+
+            <Route 
+              path= '/note/:noteId' 
+              render={ () => 
+                <NoteMain
+                  folders= { this.state.folders } 
+                  notes = {this.state.notes}
+                />
+              }
+            />
+
+          </div>
         </div>
-
       </div>
     )
   }
 }
-
