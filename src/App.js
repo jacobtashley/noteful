@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import { Route } from 'react-router-dom'
+import { Route, Switch, Link } from 'react-router-dom'
 import MainSidebar from './Sidebar/MainSidebar'
 import FolderSidebar from './Sidebar/FolderSidebar'
 import NoteSidebar from './Sidebar/NoteSidebar'
@@ -10,7 +10,7 @@ import NoteMain from './Main/NoteMain'
 import STORE from './STORE'
 
 export default class App extends Component {
-  state= {
+  state = {
     notes: [],
     folders: []
   }
@@ -24,71 +24,81 @@ export default class App extends Component {
       <div className='App'>
 
         <header className='header'>
-          <h1>Noteful</h1>
+        <Link to="/"><h1>Noteful</h1></Link>{' '}
         </header>
 
         <div className='content'>
 
           <div className='Sidebar'>
+            <Switch>
+              <Route
+                exact path='/'
+                render={(routeProps) =>
+                  <MainSidebar
+                    folders={this.state.folders}
+                    {...routeProps}
+                  />
+                }
+              />
 
-            <Route 
-              exact path= '/' 
-              render={ () => 
-                <MainSidebar
-                  folders= { this.state.folders } 
-                />
-              }
-            />
+              <Route
+                path='/folder/:folderId'
+                render={(routeProps) =>
+                  <FolderSidebar
+                    folders={this.state.folders}
+                    {...routeProps}
+                  />
+                }
+              />
 
-            <Route 
-              path= '/folder/:folderId' 
-              render={ () => 
-                <FolderSidebar
-                  folders= { this.state.folders } 
-                />
-              }
-            />
-
-            <Route 
-              path= '/note/:noteId' 
-              render={ () => 
-                <NoteSidebar
-                  folders= { this.state.folders } 
-                />
-              }
-            />
+              <Route
+                path='/note/:noteId'
+                render={(routeProps) =>
+                  <NoteSidebar
+                    folders={this.state.folders}
+                    {...routeProps}
+                  />
+                }
+              />
+            </Switch>
+            
 
           </div>
 
           <div className="mainMain">
+            <Switch>
+              <Route
+                exact path='/'
+                render={(routeProps) =>
+                  <Main
+                    notes={this.state.notes}
+                    {...routeProps}
+                  />
+                }
+              />
 
-            <Route 
-              exact path = '/' 
-              render ={() => 
-                <Main
-                  notes= {this.state.notes}
-                />
-              } 
-            />
+              <Route
+                path='/folder/:folderId'
+                render={(routeProps) =>
+                  <FolderMain
+                    folders={this.state.folders}
+                    {...routeProps}
+                  />
+                }
+              />
 
-            <Route 
-              path= '/folder/:folderId' 
-              render={ () => 
-                <FolderMain
-                  folders= { this.state.folders } 
-                />
-              }
-            />
-
-            <Route 
-              path= '/note/:noteId' 
-              render={ () => 
-                <NoteMain
-                  folders= { this.state.folders } 
-                  notes = {this.state.notes}
-                />
-              }
-            />
+              <Route
+                path='/note/:noteId'
+                render={(routeProps) =>
+                  <NoteMain
+                    folders={this.state.folders}
+                    notes={this.state.notes}
+                    {...routeProps}
+                  />
+                }
+              />
+            </Switch>
+            
 
           </div>
         </div>

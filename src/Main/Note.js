@@ -9,7 +9,7 @@ export default function Note(props) {
 
     return (
         <div className='note' key={props.note.id}>
-            <Link to={`/note/${props.note.id}`}>
+            <Link to={`/note/${props.note.id}`}> 
                 <h3>{props.note.name}</h3>
             </Link>
             <p>Date modified on {d}</p>
