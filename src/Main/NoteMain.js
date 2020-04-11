@@ -7,9 +7,6 @@ export default function NoteMain(props) {
         n.id === props.match.params.noteId
     )
 
-    console.log(note)
-
-
 
     return (
         <>

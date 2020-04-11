@@ -8,7 +8,7 @@ export default function MainSidebar(props) {
             <div className="mainButtons">
                 <ul>
                     { props.folders.map((folderName) => {
-                        return <Folders folderName= { folderName } key={folderName.id}/>
+                        return <Folders folderName= { folderName } key={folderName.id} setSelectedFolder={props.setSelectedFolder} selectedFolder={props.selectedFolder}/>
                     })}
                 </ul>
             </div>

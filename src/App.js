@@ -11,20 +11,35 @@ import STORE from './STORE'
 
 export default class App extends Component {
   state = {
+    selectedFolder: "",
+    selectedNotes: [],
     notes: [],
     folders: []
   }
 
   componentDidMount() {
-    this.setState(STORE)
+    this.setState({...STORE, selectedNotes: STORE.notes} )
   }
+
+  setSelectedFolder = name => this.setState(state => { 
+    const {id} = state.folders.find(folder => folder.name === name)
+    return {
+      selectedFolder: name, 
+      selectedNotes: state.notes.filter(note => note.folderId === id) 
+    }
+  })
+
+  goHome = () => this.setState( state => ({
+    selectedFolder: "",
+    selectedNotes: state.notes
+  }))
 
   render() {
     return (
       <div className='App'>
 
         <header className='header'>
-        <Link to="/"><h1>Noteful</h1></Link>{' '}
+          <Link to="/" onClick={this.goHome}><h1>Noteful</h1></Link>{' '}
         </header>
 
         <div className='content'>
@@ -35,6 +50,8 @@ export default class App extends Component {
                 exact path='/'
                 render={(routeProps) =>
                   <MainSidebar
+                    setSelectedFolder={this.setSelectedFolder}
+                    selectedFolder={this.state.selectedFolder}
                     folders={this.state.folders}
                     {...routeProps}
                   />
@@ -45,6 +62,8 @@ export default class App extends Component {
                 path='/folder/:folderId'
                 render={(routeProps) =>
                   <FolderSidebar
+                    setSelectedFolder={this.setSelectedFolder}
+                    selectedFolder={this.state.selectedFolder}
                     folders={this.state.folders}
                     {...routeProps}
                   />
@@ -61,7 +80,7 @@ export default class App extends Component {
                 }
               />
             </Switch>
-            
+
 
           </div>
 
@@ -71,7 +90,7 @@ export default class App extends Component {
                 exact path='/'
                 render={(routeProps) =>
                   <Main
-                    notes={this.state.notes}
+                    notes={this.state.selectedNotes}
                     {...routeProps}
                   />
                 }
@@ -81,6 +100,7 @@ export default class App extends Component {
                 path='/folder/:folderId'
                 render={(routeProps) =>
                   <FolderMain
+                    notes={this.state.selectedNotes}
                     folders={this.state.folders}
                     {...routeProps}
                   />
@@ -92,13 +112,13 @@ export default class App extends Component {
                 render={(routeProps) =>
                   <NoteMain
                     folders={this.state.folders}
-                    notes={this.state.notes}
+                    notes={this.state.selectedNotes}
                     {...routeProps}
                   />
                 }
               />
             </Switch>
-            
+
 
           </div>
         </div>
