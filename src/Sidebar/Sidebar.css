@@ -10,7 +10,7 @@
 }
 
 .button:hover {
-    background-color: pink;
+    background-color: chartreuse;
     cursor: pointer;
 }
 
@@ -26,4 +26,5 @@ ul {
 
 .active {
     background-color: chartreuse;
+    border: black 3px solid;
 }
