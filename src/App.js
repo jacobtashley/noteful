@@ -27,8 +27,9 @@ export default class App extends Component {
     return {
       selectedFolder: name,
       selectedNotes: state.notes.filter(note => note.folderId === id)
-    }
+    }    
   })
+  
 
   goHome = () => this.setState(state => ({
     selectedFolder: "",
@@ -37,7 +38,7 @@ export default class App extends Component {
 
   render() {
     const contextValue = {
-      notes: this.state.notes,
+      notes: this.state.selectedNotes,
       folders: this.state.folders,
       setSelectedFolder : this.setSelectedFolder,
       selectedFolder: this.state.selectedFolder,
@@ -58,38 +59,16 @@ export default class App extends Component {
                 <Route
                   exact path='/'
                   component={MainSidebar}
-                  // render={(routeProps) =>
-                  //   <MainSidebar
-                  //     setSelectedFolder={this.setSelectedFolder}
-                  //     selectedFolder={this.state.selectedFolder}
-                  //     folders={this.state.folders}
-                  //     {...routeProps}
-                  //   />
-                  // }
                 />
 
                 <Route
                   path='/folder/:folderId'
                   component={FolderSidebar}
-                  // render={(routeProps) =>
-                  //   <FolderSidebar
-                  //     setSelectedFolder={this.setSelectedFolder}
-                  //     selectedFolder={this.state.selectedFolder}
-                  //     folders={this.state.folders}
-                  //     {...routeProps}
-                  //   />
-                  // }
                 />
 
                 <Route
                   path='/note/:noteId'
                   component={NoteSidebar}
-                  // render={(routeProps) =>
-                  //   <NoteSidebar
-                  //     folders={this.state.folders}
-                  //     {...routeProps}
-                  //   />
-                  // }
                 />
               </Switch>
 
@@ -100,34 +79,24 @@ export default class App extends Component {
               <Switch>
                 <Route
                   exact path='/'
-                  render={(routeProps) =>
-                    <Main
-                      notes={this.state.selectedNotes}
-                      {...routeProps}
-                    />
-                  }
+                  component={Main}
                 />
 
                 <Route
                   path='/folder/:folderId'
-                  render={(routeProps) =>
-                    <FolderMain
-                      notes={this.state.selectedNotes}
-                      folders={this.state.folders}
-                      {...routeProps}
-                    />
-                  }
+                  component={FolderMain}
                 />
 
                 <Route
                   path='/note/:noteId'
-                  render={(routeProps) =>
-                    <NoteMain
-                      folders={this.state.folders}
-                      notes={this.state.selectedNotes}
-                      {...routeProps}
-                    />
-                  }
+                  component={NoteMain}
+                  // render={(routeProps) =>
+                  //   <NoteMain
+                  //     folders={this.state.folders}
+                  //     notes={this.state.selectedNotes}
+                  //     {...routeProps}
+                  //   />
+                  // }
                 />
               </Switch>
 

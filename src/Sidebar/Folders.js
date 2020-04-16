@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import './Sidebar.css'
 
 export default function Folders(props) {
-    
     return (
         <li className={props.selectedFolder === props.folderName.name ? "active": ""}> 
             <Link 

@@ -1,14 +1,19 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Note from './Note'
 import './Main.css'
+import Context from '../Context'
 
-export default function FolderMain(props) {
-    return (
-        <div className='main__container'>
-            {props.notes.map((note) => {
-                return <Note note = {note} key ={note.id}/>
-            })}
-            <button className="addNoteButton">Add Note</button>    
-        </div>
-    )
+export default class FolderMain extends Component {
+    static contextType = Context
+    render() {
+        return (
+            <div className='main__container'>
+                {this.context.notes.map((note) => {
+                    return <Note note={note} key={note.id} />
+                })}
+                <button className="addNoteButton">Add Note</button>
+            </div>
+        )
+    }
 }
+
