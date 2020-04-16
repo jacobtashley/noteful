@@ -1,25 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Folders from './Folders'
 import './Sidebar.css'
+import Context from '../Context'
 
-export default function MainSidebar(props) {
-    
-    return (
-        <div className='sidebar__container'>
-            <div className="mainButtons">
-                <ul>
-                    {props.folders.map((folderName) => {
-                        return <Folders
-                            setSelectedFolder={props.setSelectedFolder}
-                            selectedFolder={props.selectedFolder}
-                            key={folderName.id}
-                            folderName={folderName} />
-                    })}
-                </ul>
+export default class FolderSidebar extends Component {
+    static contextType = Context;
+    render() {
+        const { folders=[] } = this.context
+        return (
+            <div className='sidebar__container'>
+                <div className="mainButtons">
+                    <ul>
+                        {folders.map((folderName) => {
+                            return <Folders
+                                setSelectedFolder={this.props.setSelectedFolder}
+                                selectedFolder={this.props.selectedFolder}
+                                key={folderName.id}
+                                folderName={folderName} />
+                        })}
+                    </ul>
+                </div>
+                <div className='addFolderButton'>
+                    <button className='button'>Add Folder</button>
+                </div>
             </div>
-            <div className='addFolderButton'>
-                <button className='button'>Add Folder</button>
-            </div>
-        </div>
-    )
+        )
+    }
 }

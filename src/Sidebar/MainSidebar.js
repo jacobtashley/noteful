@@ -5,9 +5,10 @@ import Context from '../Context'
 
 export default class MainSidebar extends Component {
     static contextType = Context;
+
     render() {
         return (
-            <Context.Consumer>
+            
                 <div className='sidebar__container'>
                     <div className="mainButtons">
                         <ul>
@@ -15,8 +16,8 @@ export default class MainSidebar extends Component {
                                 return <Folders 
                                     folderName={folderName} 
                                     key={folderName.id} 
-                                    setSelectedFolder={this.props.setSelectedFolder} 
-                                    selectedFolder={this.props.selectedFolder} 
+                                    setSelectedFolder={this.context.setSelectedFolder} 
+                                    selectedFolder={this.context.selectedFolder} 
                                 />
                             })}
                         </ul>
@@ -25,7 +26,7 @@ export default class MainSidebar extends Component {
                         <button className='button'>Add Folder</button>
                     </div>
                 </div>
-            </Context.Consumer>
+            
         )
     }
 }

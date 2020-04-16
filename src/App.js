@@ -36,13 +36,15 @@ export default class App extends Component {
   }))
 
   render() {
-    const value = {
+    const contextValue = {
       notes: this.state.notes,
-      folders: this.state.folders
+      folders: this.state.folders,
+      setSelectedFolder : this.setSelectedFolder,
+      selectedFolder: this.state.selectedFolder,
     }
 
     return (
-      <Context.Provider value={value}>
+      <Context.Provider value={contextValue}>
         <div className='App'>
 
           <header className='header'>
@@ -55,8 +57,6 @@ export default class App extends Component {
               <Switch>
                 <Route
                   exact path='/'
-                  setSelectedFolder={this.setSelectedFolder}
-                  selectedFolder={this.state.selectedFolder}
                   component={MainSidebar}
                   // render={(routeProps) =>
                   //   <MainSidebar
@@ -70,24 +70,26 @@ export default class App extends Component {
 
                 <Route
                   path='/folder/:folderId'
-                  render={(routeProps) =>
-                    <FolderSidebar
-                      setSelectedFolder={this.setSelectedFolder}
-                      selectedFolder={this.state.selectedFolder}
-                      folders={this.state.folders}
-                      {...routeProps}
-                    />
-                  }
+                  component={FolderSidebar}
+                  // render={(routeProps) =>
+                  //   <FolderSidebar
+                  //     setSelectedFolder={this.setSelectedFolder}
+                  //     selectedFolder={this.state.selectedFolder}
+                  //     folders={this.state.folders}
+                  //     {...routeProps}
+                  //   />
+                  // }
                 />
 
                 <Route
                   path='/note/:noteId'
-                  render={(routeProps) =>
-                    <NoteSidebar
-                      folders={this.state.folders}
-                      {...routeProps}
-                    />
-                  }
+                  component={NoteSidebar}
+                  // render={(routeProps) =>
+                  //   <NoteSidebar
+                  //     folders={this.state.folders}
+                  //     {...routeProps}
+                  //   />
+                  // }
                 />
               </Switch>
 
