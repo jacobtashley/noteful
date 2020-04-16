@@ -7,20 +7,39 @@ import NoteSidebar from './Sidebar/NoteSidebar'
 import Main from './Main/Main'
 import FolderMain from './Main/FolderMain'
 import NoteMain from './Main/NoteMain'
-import STORE from './STORE'
 import Context from './Context'
+import config from'./config'
 
 export default class App extends Component {
   state = {
-    selectedFolder: "",
-    selectedNotes: [],
     notes: [],
-    folders: []
+    folders: [],
+    selectedFolder: "",
+    selectedNotes: []
+   
   }
 
   componentDidMount() {
-    this.setState({ ...STORE, selectedNotes: STORE.notes })
-  }
+    Promise.all([
+        fetch(`${config.API_ENDPOINT}/notes`),
+        fetch(`${config.API_ENDPOINT}/folders`)
+    ])
+        .then(([notesRes, foldersRes]) => {
+            if (!notesRes.ok)
+                return notesRes.json().then(e => Promise.reject(e));
+            if (!foldersRes.ok)
+                return foldersRes.json().then(e => Promise.reject(e));
+
+            return Promise.all([notesRes.json(), foldersRes.json()]);
+        })
+        .then(([notes, folders]) => {
+            this.setState({notes, folders});
+        })
+        .catch(error => {
+            console.error({error});
+        });
+}
+
 
   setSelectedFolder = name => this.setState(state => {
     const { id } = state.folders.find(folder => folder.name === name)
@@ -38,7 +57,7 @@ export default class App extends Component {
 
   render() {
     const contextValue = {
-      notes: this.state.selectedNotes,
+      notes: this.state.notes,
       folders: this.state.folders,
       setSelectedFolder : this.setSelectedFolder,
       selectedFolder: this.state.selectedFolder,
@@ -90,13 +109,6 @@ export default class App extends Component {
                 <Route
                   path='/note/:noteId'
                   component={NoteMain}
-                  // render={(routeProps) =>
-                  //   <NoteMain
-                  //     folders={this.state.folders}
-                  //     notes={this.state.selectedNotes}
-                  //     {...routeProps}
-                  //   />
-                  // }
                 />
               </Switch>
 
