@@ -22,7 +22,10 @@ export default class NoteMain extends Component {
                     <h3>{note && note.name}</h3>
 
                     <p>Date modified on </p> {note && note.modified}
-                    <button className='deleteButton'>Delete Note</button>
+                    <button 
+                        className='deleteButton'
+                        
+                    >Delete Note</button>
                 </div>
                 <div className="contentContainer">
                     <p>{note && note.content}</p>

@@ -13,8 +13,6 @@ export default class FolderSidebar extends Component {
                     <ul>
                         {this.context.folders.map((folderName) => {
                             return <Folders
-                                setSelectedFolder={this.context.setSelectedFolder}
-                                selectedFolder={this.context.selectedFolder}
                                 key={folderName.id}
                                 folderName={folderName} />
                         })}

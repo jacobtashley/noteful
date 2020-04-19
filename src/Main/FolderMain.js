@@ -8,7 +8,7 @@ export default class FolderMain extends Component {
     render() {
         return (
             <div className='main__container'>
-                {this.context.notes.map((note) => {
+                {this.context.selectedNotes.map((note) => {
                     return <Note note={note} key={note.id} />
                 })}
                 <button className="addNoteButton">Add Note</button>
@@ -16,4 +16,3 @@ export default class FolderMain extends Component {
         )
     }
 }
-
