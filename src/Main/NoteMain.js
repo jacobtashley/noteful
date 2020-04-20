@@ -10,7 +10,7 @@ export default class NoteMain extends Component {
         }
     }
 
-    static contextType = Context 
+    static contextType = Context
 
     render() {
         const note = this.context.notes.find(n =>
@@ -23,10 +23,13 @@ export default class NoteMain extends Component {
                     <h3>{note && note.name}</h3>
 
                     <p>Date modified on </p> {note && note.modified}
-                    <button 
+                    <button
                         className='deleteButton'
-                        
-                    >Delete Note</button>
+                        onClick= {() =>  {
+                            this.context.deleteNote(
+                                note.id, ()=>{this.props.history.push("/")}
+                            )
+                        }}>Delete Note</button>
                 </div>
                 <div className="contentContainer">
                     <p>{note && note.content}</p>
@@ -35,6 +38,3 @@ export default class NoteMain extends Component {
         )
     }
 }
-
-
-

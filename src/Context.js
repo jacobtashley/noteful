@@ -31,7 +31,7 @@ export class ContextProvider extends React.Component {
                     return notesRes.json().then(e => Promise.reject(e));
                 if (!foldersRes.ok)
                     return foldersRes.json().then(e => Promise.reject(e));
-    
+
                 return Promise.all([notesRes.json(), foldersRes.json()]);
             })
             .then(([notes, folders]) => {
@@ -41,17 +41,39 @@ export class ContextProvider extends React.Component {
                 console.error({error});
             });
     }
-    
+
 
     addFolder =  () => {}
     addNote = () => {}
 
-    deleteNote = (noteId) => {
-        this.setState(state => ({
-            ...state,
-            notes: state.notes.filter(note => note.id !== noteId),
-            selectedNotes: state.selectedNotes.filter(note => note.id !== noteId)
-        }))
+    deleteNote = (noteId, fromNoteMain) => {
+        fetch( `${config.API_ENDPOINT}/notes/${noteId}`, {
+            method: 'DELETE',
+        })
+        .then(res => {
+            if (!res.ok) {
+                // get the error message from the response,
+                return res.json().then(error => {
+                    // then throw it
+                    throw error
+                })
+            }
+            return res.json()
+        })
+        .then(data => {
+            // call the callback when the request is successful
+            // this is where the App component can remove it from state
+            // callback(noteId)
+            this.setState(state => ({
+                ...state,
+                notes: state.notes.filter(note => note.id !== noteId),
+                selectedNotes: state.selectedNotes.filter(note => note.id !== noteId)
+            }),()=>{ (fromNoteMain) && fromNoteMain.call() })
+        })
+        .catch(error => {
+            console.error(error)
+        })
+
     }
 
     setSelectedFolder = name => this.setState(state => {
@@ -59,7 +81,7 @@ export class ContextProvider extends React.Component {
         return {
           selectedFolder: name,
           selectedNotes: state.notes.filter(note => note.folderId === id)
-        }    
+        }
     })
 
     goHome = () => this.setState(state => ({
